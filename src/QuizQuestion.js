@@ -5,14 +5,23 @@ import { timingSafeEqual } from 'crypto';
 class QuizQuestion extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+          incorrectAnswer : true
+        }
 
     }
     handleClick (buttonText)
     {
       if(buttonText === this.props.quiz_question.answer)
       {
+        this.setState((state) => {incorrectAnswer : false})
         this.props.showNextQuestionHandler();
       }
+      if (buttonText !== this.props.quiz_question.answer)
+      {
+        this.setState((state) => {incorrectAnswer : true})
+      }
+      
     }
     render()
     {
@@ -31,6 +40,8 @@ class QuizQuestion extends Component {
                 
               </ul>
             </section>
+            
+            { (this.state.incorrectAnswer === true) ? <p className="error">Sorry, that's not right</p> : null }
           </main>
         );
     }
